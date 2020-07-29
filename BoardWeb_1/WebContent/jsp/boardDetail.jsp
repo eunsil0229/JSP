@@ -24,9 +24,10 @@
 	PreparedStatement ps = null; // 쿼리문 완성 + 쿼리문 실행
 	ResultSet rs = null; // select문의 결과를 담는 과정
 	
-	String sql = " SELECT title, ctnt, i_student FROM t_board WHERE i_board = " + strI_board;
-	//String sql = " SELECT title, ctnt, B.nm FROM t_board A JOIN T_STUDENT B ON A.i_student = B.i_student WHERE A.i_student = " + strI_board;
+	String name = "";
 	
+	String sql = " SELECT title, ctnt, i_student FROM t_board WHERE i_board = " + strI_board;
+	sql = " SELECT a.i_student as I_STUDENT, title, ctnt, nm FROM t_board A JOIN T_STUDENT B ON A.i_student = B.i_student WHERE i_board = " + strI_board;
 	
 	try {
 		con = getCon();
@@ -40,6 +41,7 @@
 		String title = rs.getNString("title");
 		String ctnt = rs.getNString("ctnt");
 		int i_student = rs.getInt("i_student");
+		name = rs.getNString("nm");
 		
 		vo = new BoardVO();
 		
@@ -55,6 +57,10 @@
 		if(ps != null) { try { ps.close(); } catch(Exception e) {} }
 		if(con != null) { try { con.close(); } catch(Exception e) {} }
 	}
+	
+	// 연결했는데 또 연결해주는 이유	-> 쓰자마자 close() 해서 닫았기 때문
+	// 타이틀도 getParameter로 받을 수 있는가	-> 받아올 수는 있지만 트래픽 발생이 많고 비효율적이라 pk값을 받아오는 것이 좋음
+	
 %>
 <!DOCTYPE html>
 <html>
@@ -62,6 +68,7 @@
 <meta charset="UTF-8">
 <title>상세 페이지</title>
 <style>
+	
     table {
         border-collapse: collapse;
     }
@@ -73,22 +80,24 @@
 </style>
 </head>
 <body>
+	<div class="container">
+		<table>
+			<caption>상세 페이지 : <%=strI_board %></caption>
+	        <tr>
+	            <th>글 번호</th>
+	            <th>글 제목</th>
+	            <th>글 내용</th>
+	            <th>작성자</th>
+	        </tr>
+	        <tr>
+	            <td><%=strI_board %></td>
+	            <td><%=vo.getTitle() %></td>
+	            <td style="width: 200px"><%=vo.getCtnt() %></td>
+	            <td><%=name %></td>
+	        </tr>
+	    </table>
+	</div>
 
-	<table>
-		<caption>상세 페이지 : <%=strI_board %></caption>
-        <tr>
-            <th>글 번호</th>
-            <th>글 제목</th>
-            <th>글 내용</th>
-            <th>작성자</th>
-        </tr>
-        <tr>
-            <td><%=strI_board %></td>
-            <td><%=vo.getTitle() %></td>
-            <td style="width: 200px"><%=vo.getCtnt() %></td>
-            <td><%=vo.getI_student() %></td>
-        </tr>
-    </table>
 	
 </body>
 </html>
