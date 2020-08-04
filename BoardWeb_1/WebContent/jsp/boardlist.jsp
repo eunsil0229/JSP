@@ -24,7 +24,7 @@
 	PreparedStatement ps = null; // 쿼리문 완성 + 쿼리문 실행
 	ResultSet rs = null; // select문의 결과를 담는 과정
 	
-	String sql = " SELECT i_board, title FROM t_board ";
+	String sql = " SELECT i_board, title FROM t_board ORDER BY i_board DESC ";
 	// 쿼리문 양쪽에는 웬만하면 빈칸 하나씩 두기
 	// 여러 줄에 걸쳐서 쓸 때도 빈칸 넣기
 	// " SELECT i_board, title " + " FROM t_board ";
@@ -74,6 +74,30 @@
 <meta charset="UTF-8">
 <title>게시판</title>
 <style>
+	body {
+		width: 100%;
+		height: 100%;
+		margin: 0;
+		padding: 0;
+	}
+	.container {
+		width: 500px;
+		height: 500px;
+		border: 1px solid black;
+		display: flex;
+        justify-content: center;
+        align-items: center;
+	}
+	.container .contents {
+		width: auto;
+		border: 3px solid black;
+	
+	}
+	.container .contents .header {
+		width: 100%;
+		display: flex;
+		justify-content: flex-end;
+	}
     table {
         border-collapse: collapse;
     }
@@ -85,22 +109,31 @@
 </style>
 </head>
 <body>
-	<div>게시판 리스트</div>
-	<table>
-		<tr>
-			<th>No</th>
-			<th>제목</th>
-		</tr>
-		<% for(BoardVO vo : boardList) {%>
-		<tr>
-			<td><%=vo.getI_board() %></td>
-			<td><a href="/jsp/boardDetail.jsp?i_board=<%=vo.getI_board() %> " target="_blank">
-				<%=vo.getTitle() %> 
-				</a>
-			</td>
-		</tr>
-		<% } %> 
-	</table>
+	<div class="container">
+		<div class="contents">
+		<p>게시판 리스트</p>
+			<header class="header">
+				
+				<a href="/jsp/boardWrite.jsp"><button>글쓰기</button></a> <!-- 글쓰는 화면 띄우는 용도인 boardWrite.jsp와 -->
+					<!-- 폼으로 받아서 insert 날리고 실제 처리하는 boardWriteProc.jsp 파일 두 개가 필요함 -->
+			</header>
+			<table>
+				<tr>
+					<th>No</th>
+					<th>제목</th>
+				</tr>
+				<% for(BoardVO vo : boardList) {%>
+				<tr>
+					<td><%=vo.getI_board() %></td>
+					<td><a href="/jsp/boardDetail.jsp?i_board=<%=vo.getI_board() %> " target="_blank">
+						<%=vo.getTitle() %> 
+						</a>
+					</td>
+				</tr>
+				<% } %> 
+			</table>
+		</div>
+	</div>
 </body>
 </html>
 

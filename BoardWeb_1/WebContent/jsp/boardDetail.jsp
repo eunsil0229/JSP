@@ -40,7 +40,7 @@
 	String sql = " SELECT title, ctnt, i_student FROM t_board WHERE i_board = " + strI_board;
 	//sql = " SELECT a.i_student as I_STUDENT, title, ctnt, nm FROM t_board A JOIN T_STUDENT B ON A.i_student = B.i_student WHERE i_board = " + strI_board;
 	sql = " SELECT title, ctnt, i_student FROM t_board WHERE i_board = ? ";
-	sql = "SELECT a.i_student as I_STUDENT, title, ctnt, nm FROM t_board A JOIN T_STUDENT B ON A.i_student = B.i_student WHERE i_board = ? ";
+	sql = " SELECT a.i_student as I_STUDENT, title, ctnt, nm FROM t_board A JOIN T_STUDENT B ON A.i_student = B.i_student WHERE i_board = ? ";
 	
 	try {
 		con = getCon();
@@ -105,6 +105,7 @@
 	<div>
 	<a href="/jsp/boardlist.jsp">리스트로 가기</a>
 	<a href="#" onclick="procDel(<%=i_board%>)">삭제</a>
+	<a href="/jsp/boardMod.jsp?i_board=<%=i_board%>">수정</a>
 	</div>
 		<table>
 			<caption>상세 페이지 : <%=strI_board %></caption>
